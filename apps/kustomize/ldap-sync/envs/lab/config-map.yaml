@@ -1,0 +1,36 @@
+---
+apiVersion: v1
+data:
+  sync.yaml: |
+    kind: LDAPSyncConfig
+    apiVersion: v1
+    url: ldaps://dc1.tspdata.local:636
+    ca: /etc/ldap-ca/ca.crt
+    bindDN: cn=read_only,cn=Users,dc=tspdata,dc=local
+    bindPassword:
+      file: /etc/secrets/bindPassword
+    groupUIDNameMapping:
+      "CN=OpenShift Admins,CN=Users,DC=tspdata,DC=local": tspdata-local-admins
+      "CN=technici,CN=Users,DC=tspdata,DC=local": tspdata-local-developers
+    augmentedActiveDirectory:
+        groupsQuery:
+            baseDN: "dc=tspdata,dc=local"
+            scope: sub
+            derefAliases: never
+            pageSize: 0
+        groupUIDAttribute: dn
+        groupNameAttributes: [ cn ]
+        usersQuery:
+            baseDN: "cn=users,dc=tspdata,dc=local"
+            scope: sub
+            derefAliases: never
+            filter: (objectclass=person)
+            pageSize: 0
+        userNameAttributes: [ sAMAccountName ]
+        groupMembershipAttributes: [ memberOf ]
+  whitelist.txt: |-
+    CN=OpenShift Admins,CN=Users,DC=tspdata,DC=local
+    CN=technici,CN=Users,DC=tspdata,DC=local
+kind: ConfigMap
+metadata:
+  name: ldap-group-syncer

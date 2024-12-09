@@ -1,0 +1,8 @@
+---
+apiVersion: v1
+data:
+  sync.yaml: ''
+  whitelist.txt: ''
+kind: ConfigMap
+metadata:
+  name: ldap-group-syncer

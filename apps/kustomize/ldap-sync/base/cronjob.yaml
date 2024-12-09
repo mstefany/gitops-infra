@@ -1,0 +1,45 @@
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: ldap-group-syncer
+spec:
+  concurrencyPolicy: Forbid
+  jobTemplate:
+    spec:
+      backoffLimit: 0
+      template:
+        spec:
+          activeDeadlineSeconds: 500
+          containers:
+            - command:
+                - "/bin/bash"
+                - "-c"
+                - "oc adm groups sync --whitelist=/etc/config/whitelist.txt --sync-config=/etc/config/sync.yaml --confirm"
+              image: 'registry.redhat.io/openshift4/ose-cli:latest'
+              imagePullPolicy: Always
+              name: ldap-group-sync
+              volumeMounts:
+                - mountPath: /etc/config
+                  name: ldap-sync-volume
+                - mountPath: /etc/secrets
+                  name: ldap-bind-password
+                - mountPath: /etc/ldap-ca
+                  name: ldap-ca
+          restartPolicy: Never
+          serviceAccount: ldap-group-syncer
+          serviceAccountName: ldap-group-syncer
+          terminationGracePeriodSeconds: 30
+          volumes:
+            - configMap:
+                name: ldap-group-syncer
+              name: ldap-sync-volume
+            - name: ldap-bind-password
+              secret:
+                secretName: ldap-secret
+            - configMap:
+                name: ca-config-map
+              name: ldap-ca
+      ttlSecondsAfterFinished: 1800
+  schedule: '*/30 * * * *'
+  suspend: false
