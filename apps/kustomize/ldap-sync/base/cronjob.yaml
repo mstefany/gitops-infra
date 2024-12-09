@@ -38,7 +38,7 @@ spec:
               secret:
                 secretName: ldap-secret
             - configMap:
-                name: ca-config-map
+                name: ldap-ca-cert
               name: ldap-ca
       ttlSecondsAfterFinished: 1800
   schedule: '*/30 * * * *'
