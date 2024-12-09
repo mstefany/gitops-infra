@@ -21,22 +21,22 @@ spec:
   goTemplateOptions: ["missingkey=error"]
   template:      
     metadata:
-      name: '{{index .path.segments 2}}-{{index .path.segments 4}}' 
+      name: '{{ index .path.segments 2 }}-{{ index .path.segments 4 }}'
     spec:
       destination:
-        namespace: '{{index .path.segments 2}}-{{index .path.segments 4}}'
+        namespace: '{{ index .path.segments 2 }}'
         server: '{{ .url }}'
       project: default
       source:
-        path: '{{.path.path}}'
+        path: '{{ .path.path }}'
         repoURL: https://github.com/mstefany/gitops-infra.git
         targetRevision: main
       syncPolicy:
-        automated: # automated sync by default retries failed attempts 5 times with following delays between attempts ( 5s, 10s, 20s, 40s, 80s ); retry controlled using `retry` field.
-          prune: true # Specifies if resources should be pruned during auto-syncing ( false by default ).
-          selfHeal: true # Specifies if partial app sync should be executed when resources are changed only in target Kubernetes cluster and no git change detected ( false by default ).
+        automated:
+          prune: true
+          selfHeal: true
         managedNamespaceMetadata:
           labels:
             argocd.argoproj.io/managed-by: openshift-gitops
         syncOptions:
-        - CreateNamespace=true
+          - CreateNamespace=true
