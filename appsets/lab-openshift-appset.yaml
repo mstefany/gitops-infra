@@ -2,7 +2,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
-  name: lab-infra-appset
+  name: lab-openshift-appset
   namespace: openshift-gitops
 spec:
   generators:
@@ -10,8 +10,7 @@ spec:
         generators:
           - git:
               directories:
-                # - path: apps/helm/*/envs/lab
-                - path: apps/kustomize/*/envs/lab
+                - path: apps/openshift/*/envs/lab
               repoURL: https://github.com/mstefany/gitops-infra.git
               revision: main
           - list:
@@ -42,6 +41,7 @@ spec:
           labels:
             # https://docs.openshift.com/gitops/1.14/argocd_instance/setting-up-argocd-instance.html#gitops-deploy-resources-different-namespaces_setting-up-argocd-instance
             argocd.argoproj.io/managed-by: openshift-gitops
+            openshift.io/cluster-monitoring: "true"
         syncOptions:
           - CreateNamespace=true
           - ApplyOutOfSyncOnly=true    # https://argo-cd.readthedocs.io/en/stable/user-guide/sync-options/#selective-sync
