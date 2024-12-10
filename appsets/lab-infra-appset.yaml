@@ -36,7 +36,13 @@ spec:
           prune: true
           selfHeal: true
         managedNamespaceMetadata:
+          annotations:
+            openshift.io/requester: infra
           labels:
+            # https://docs.openshift.com/gitops/1.14/argocd_instance/setting-up-argocd-instance.html#gitops-deploy-resources-different-namespaces_setting-up-argocd-instance
             argocd.argoproj.io/managed-by: openshift-gitops
         syncOptions:
           - CreateNamespace=true
+          - ApplyOutOfSyncOnly=true    # https://argo-cd.readthedocs.io/en/stable/user-guide/sync-options/#selective-sync
+          - ServerSideApply=true       # https://argo-cd.readthedocs.io/en/stable/user-guide/sync-options/#server-side-apply
+          - FailOnSharedResource=true  # https://argo-cd.readthedocs.io/en/stable/user-guide/sync-options/#fail-the-sync-if-a-shared-resource-is-found
