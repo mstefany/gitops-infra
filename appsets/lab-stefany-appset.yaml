@@ -1,0 +1,44 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: lab-stefany-appset
+  namespace: openshift-gitops
+spec:
+  generators:
+    - matrix:
+        generators:
+          - git:
+              directories:
+                - path: apps/stefany/*/*
+              repoURL: https://github.com/mstefany/gitops-infra.git
+              revision: main
+  goTemplate: true
+  goTemplateOptions: ["missingkey=error"]
+  template:
+    metadata:
+      name: '{{ index .path.segments 2 }}'
+    spec:
+      destination:
+        name: '{{ .name }}'
+        namespace: '{{ index .path.segments 2 }}'
+      project: default
+      source:
+        path: '{{ .path.path }}'
+        repoURL: https://github.com/mstefany/gitops-infra.git
+        targetRevision: main
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        managedNamespaceMetadata:
+          annotations:
+            openshift.io/requester: infra
+          labels:
+            # https://docs.openshift.com/gitops/1.14/argocd_instance/setting-up-argocd-instance.html#gitops-deploy-resources-different-namespaces_setting-up-argocd-instance
+            argocd.argoproj.io/managed-by: openshift-gitops
+        syncOptions:
+          - CreateNamespace=true
+          - ApplyOutOfSyncOnly=true    # https://argo-cd.readthedocs.io/en/stable/user-guide/sync-options/#selective-sync
+          - ServerSideApply=true       # https://argo-cd.readthedocs.io/en/stable/user-guide/sync-options/#server-side-apply
+          - FailOnSharedResource=true  # https://argo-cd.readthedocs.io/en/stable/user-guide/sync-options/#fail-the-sync-if-a-shared-resource-is-found

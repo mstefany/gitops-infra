@@ -4,4 +4,4 @@ kind: Kustomization
 patches:
   - path: route.yaml
 resources:
-  - ../../base
+  - https://github.com/mstefany/demo-informator//deploy/manifests/openshift/?ref=main
