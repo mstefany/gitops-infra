@@ -6,8 +6,8 @@ metadata:
   namespace: openshift-gitops
 spec:
   destination:
+    name: in-cluster
     namespace: openshift-gitops
-    server: in-cluster
   project: default
   source:
     path: appsets

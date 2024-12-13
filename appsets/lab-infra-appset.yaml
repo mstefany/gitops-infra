@@ -17,7 +17,7 @@ spec:
           - list:
               elements:
                 - cluster: lab
-                  url: in-cluster
+                  name: in-cluster
   goTemplate: true
   goTemplateOptions: ["missingkey=error"]
   template:
@@ -25,8 +25,8 @@ spec:
       name: '{{ index .path.segments 2 }}-{{ index .path.segments 4 }}'
     spec:
       destination:
+        name: '{{ .name }}'
         namespace: '{{ index .path.segments 2 }}'
-        server: '{{ .url }}'
       project: default
       source:
         path: '{{ .path.path }}'
