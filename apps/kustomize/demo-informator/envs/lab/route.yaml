@@ -1,0 +1,7 @@
+---
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: demo-informator
+spec:
+  host: demo-informator.apps.iit-os0a.tspdata.local  # should be set per-cluster

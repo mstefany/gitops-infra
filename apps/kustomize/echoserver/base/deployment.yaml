@@ -12,7 +12,6 @@ spec:
       labels:
         app: echoserver
     spec:
-      replicas: 10
       containers:
         - env:
             - name: PORT
