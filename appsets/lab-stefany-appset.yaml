@@ -6,18 +6,16 @@ metadata:
   namespace: openshift-gitops
 spec:
   generators:
-    - matrix:
-        generators:
-          - git:
-              directories:
-                - path: apps/stefany/*/*
-              repoURL: https://github.com/mstefany/gitops-infra.git
-              revision: main
+    - git:
+        directories:
+          - path: apps/stefany/*/*
+        repoURL: https://github.com/mstefany/gitops-infra.git
+        revision: main
   goTemplate: true
   goTemplateOptions: ["missingkey=error"]
   template:
     metadata:
-      name: '{{ index .path.segments 2 }}'
+      name: '{{ index .path.segments 2 }}-{{ index .path.segments 3 }}'
     spec:
       destination:
         name: '{{ .name }}'
@@ -33,7 +31,7 @@ spec:
           selfHeal: true
         managedNamespaceMetadata:
           annotations:
-            openshift.io/requester: infra
+            openshift.io/requester: stefany
           labels:
             # https://docs.openshift.com/gitops/1.14/argocd_instance/setting-up-argocd-instance.html#gitops-deploy-resources-different-namespaces_setting-up-argocd-instance
             argocd.argoproj.io/managed-by: openshift-gitops
