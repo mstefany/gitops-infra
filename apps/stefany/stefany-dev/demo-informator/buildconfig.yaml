@@ -1,0 +1,21 @@
+---
+apiVersion: build.openshift.io/v1
+kind: BuildConfig
+metadata:
+  name: demo-informator
+spec:
+  output:
+    to:
+      kind: ImageStreamTag
+      name: 'demo-informator:latest'
+  runPolicy: Serial
+  source:
+    contextDir: /src
+    git:
+      ref: main
+      uri: 'https://github.com/mstefany/demo-informator'
+    type: Git
+  strategy:
+    dockerStrategy:
+      dockerfilePath: Containerfile
+    type: Docker

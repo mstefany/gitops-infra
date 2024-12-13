@@ -5,3 +5,7 @@ patches:
   - path: route.yaml
 resources:
   - https://github.com/mstefany/demo-informator//deploy/manifests/openshift/?ref=main
+  
+  # build it on OpenShift
+  - imagestream.yaml
+  - buildconfig.yaml
