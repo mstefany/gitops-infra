@@ -1,0 +1,7 @@
+---
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - tspdata-local-admins-cluster-admin-binding.yaml
+  - tspdata-local-developers-cluster-reader-binding.yaml
+  - tspdata-local-developers-self-provisioner-binding.yaml
