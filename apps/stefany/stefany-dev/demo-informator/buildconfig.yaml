@@ -13,7 +13,7 @@ spec:
     contextDir: /src
     git:
       ref: main
-      uri: 'https://github.com/mstefany/demo-informator'
+      uri: "https://github.com/mstefany/demo-informator"
     type: Git
   strategy:
     dockerStrategy:

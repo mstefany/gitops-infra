@@ -15,6 +15,7 @@ spec:
             - command:
                 - "/bin/bash"
                 - "-c"
+                # yamllint disable-line rule:line-length
                 - "oc adm groups sync --whitelist=/etc/config/whitelist.txt --sync-config=/etc/config/sync.yaml --confirm"
               image: 'registry.redhat.io/openshift4/ose-cli:latest'
               imagePullPolicy: Always

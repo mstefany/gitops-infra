@@ -14,6 +14,6 @@ spec:
     repoURL: https://github.com/mstefany/gitops-infra.git
     targetRevision: main
   syncPolicy:
-    automated: 
-      prune: true 
+    automated:
+      prune: true
       selfHeal: true

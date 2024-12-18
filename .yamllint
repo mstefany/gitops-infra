@@ -1,0 +1,11 @@
+---
+extends: default
+
+rules:
+  brackets:
+    forbid: non-empty
+  document-start:
+    present: true
+  line-length:
+    allow-non-breakable-inline-mappings: true
+    max: 120

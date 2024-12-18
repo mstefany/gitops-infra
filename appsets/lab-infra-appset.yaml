@@ -19,7 +19,8 @@ spec:
                 - cluster: lab
                   name: in-cluster
   goTemplate: true
-  goTemplateOptions: ["missingkey=error"]
+  goTemplateOptions:
+    - "missingkey=error"
   template:
     metadata:
       name: '{{ index .path.segments 2 }}-{{ index .path.segments 4 }}'
@@ -44,6 +45,9 @@ spec:
             argocd.argoproj.io/managed-by: openshift-gitops
         syncOptions:
           - CreateNamespace=true
-          - ApplyOutOfSyncOnly=true    # https://argo-cd.readthedocs.io/en/stable/user-guide/sync-options/#selective-sync
-          - ServerSideApply=true       # https://argo-cd.readthedocs.io/en/stable/user-guide/sync-options/#server-side-apply
-          - FailOnSharedResource=true  # https://argo-cd.readthedocs.io/en/stable/user-guide/sync-options/#fail-the-sync-if-a-shared-resource-is-found
+          # https://argo-cd.readthedocs.io/en/stable/user-guide/sync-options/#selective-sync
+          - ApplyOutOfSyncOnly=true
+          # https://argo-cd.readthedocs.io/en/stable/user-guide/sync-options/#server-side-apply
+          - ServerSideApply=true
+          # https://argo-cd.readthedocs.io/en/stable/user-guide/sync-options/#fail-the-sync-if-a-shared-resource-is-found
+          - FailOnSharedResource=true
